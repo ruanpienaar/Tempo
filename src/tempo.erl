@@ -28,7 +28,7 @@ loop(Tid, LimitRef, LimitPSec, TRef) ->
                     % io:format("LC ~p~n", [NewCount]),
                     % io:format("L ~p~n", [erlang:monotonic_time(nano_seconds)]),
                     ReqPid ! limit;
-                NewCount ->
+                _NewCount ->
                     % io:format("HC ~p~n", [NewCount]),
                     % io:format("H ~p~n", [erlang:monotonic_time(nano_seconds)]),
                     ReqPid ! ok
