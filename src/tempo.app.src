@@ -1,0 +1,12 @@
+{application, tempo,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { tempo_app, []}},
+  {env, []}
+ ]}.
