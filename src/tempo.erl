@@ -21,9 +21,9 @@
 
 %% @doc Interval is in miliseconds.
 %% @end
--spec start_link(atom, pos_integer(), pos_integer()) -> pid().
+-spec start_link(atom, pos_integer(), pos_integer()) -> {ok, pid()}.
 start_link(LimitTbl, Limit, Interval) ->
-    proc_lib:start_link(?MODULE, init, [LimitTbl, Limit, Interval]).
+    {ok, proc_lib:start_link(?MODULE, init, [LimitTbl, Limit, Interval])}.
 
 -spec can_make_call(pid()) -> boolean().
 can_make_call(Pid) ->
