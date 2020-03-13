@@ -8,7 +8,6 @@
 % API
 -export([
     start_link/3,
-    start_link/4,
     can_make_call/1,
     can_make_call/2
 ]).
@@ -25,10 +24,6 @@
 -spec start_link(atom, pos_integer(), pos_integer()) -> pid().
 start_link(LimitTbl, Limit, Interval) ->
     proc_lib:start_link(?MODULE, init, [LimitTbl, Limit, Interval]).
-
--spec start_link(atom, atom, pos_integer(), pos_integer()) -> pid().
-start_link(Name, LimitTbl, Limit, Interval) ->
-    proc_lib:start_link(?MODULE, init, [Name, LimitTbl, Limit, Interval]).
 
 -spec can_make_call(pid()) -> boolean().
 can_make_call(Pid) ->
@@ -50,12 +45,8 @@ can_make_call(Pid, Timeout) ->
 %% ------------------------------------------------------------
 
 init(LimitTbl, Limit, Interval) ->
-    WorkerLoopPid = proc_lib:start_link(?MODULE, worker_init, [storage]),
-    rest_of_init(LimitTbl, Limit, Interval, WorkerLoopPid).
-
-init(Name, LimitTbl, Limit, Interval) ->
-    WorkerLoopPid = proc_lib:start_link(?MODULE, worker_init, [Name]),
-    true = erlang:register(Name, self()),
+    WorkerLoopPid = proc_lib:start_link(?MODULE, worker_init, [LimitTbl]),
+    true = erlang:register(LimitTbl, self()),
     rest_of_init(LimitTbl, Limit, Interval, WorkerLoopPid).
 
 rest_of_init(LimitTbl, Limit, Interval, WorkerLoopPid) ->
